@@ -1,0 +1,8 @@
+from __future__ import unicode_literals
+import multiprocessing
+
+
+bind = "unix:/tmp/gunicorn.sock"
+workers = multiprocessing.cpu_count() * 2 + 1
+loglevel = "error"
+proc_name = "emptyproject"

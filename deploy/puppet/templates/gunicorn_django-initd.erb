@@ -1,0 +1,46 @@
+#!/bin/bash
+#
+#       /etc/rc.d/init.d/gunicorn_django
+#
+#       Gunicorn_django init.d script
+#
+# chkconfig:   - 80 20
+# description: Gunicorn_django is an wsgi application server..
+# processname: gunicorn_django
+# pidfile:     /var/run/gunicorn_django.pid
+
+# Source function library.
+. /etc/init.d/functions
+
+pidfile="/var/run/gunicorn_django.pid"
+
+start() {
+        echo -n "Starting Gunicorn_django"
+        su -c "cd <%=@mezzanine_project_parent_dir%>/<%=@mezzanine_project_name%>;gunicorn_django -u <%=@mezzanine_project_user%> -g <%=@mezzanine_project_user%> -D -c gunicorn.conf.py -p $pidfile"
+        return $?
+}
+
+stop() {
+    echo -n "Stopping gunicorn_django: "
+    killproc -p $pidfile gunicorn_django
+    return $?
+    echo
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status gunicorn_django
+        ;;
+    *)
+        echo "Usage: gunicorn_django {start|status|stop}"
+        exit 1
+        ;;
+esac
+exit $?
+
