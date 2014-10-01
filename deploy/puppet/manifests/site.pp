@@ -79,7 +79,7 @@ node default {
    exec { "copy_static_content_$mezzanine_project_name":
       path => "/sbin:/bin:/usr/bin",
       onlyif => "test ! -f $mezzanine_project_parent_dir/$mezzanine_project_name/static/robots.txt",
-      command => "su -c \"cd $mezzanine_project_parent_dir/$mezzanine_project_name/static;cp -pR /usr/lib/python2.6/site-packages/mezzanine/core/static/* .\" $mezzanine_project_user",
+      command => "su -c \"cd $mezzanine_project_parent_dir/$mezzanine_project_name;python manage.py collectstatic --noinput\" $mezzanine_project_user",
       require => [ Exec["setupproject_$mezzanine_project_name"] , File["/home/$mezzanine_project_user"] ]
    }
 
